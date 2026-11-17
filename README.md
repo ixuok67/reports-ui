@@ -1,7 +1,21 @@
 # reports-ui
 
 Dark web reader for the plain-file reports under `$REPORTS_HOME` (daily reports, PR
-digests, and whatever kind comes next).
+digests, and whatever kind comes next). One small Node server, no build step, no database.
+
+![Reading a daily report](docs/reader.png)
+
+<table>
+<tr>
+<td width="50%"><img src="docs/search.png" alt="Full-text search across every report"><br><sub>Full-text search across every kind</sub></td>
+<td width="50%"><img src="docs/pr-digest.png" alt="PR digests grouped by repo"><br><sub>A kind with groups (PR digest per repo)</sub></td>
+</tr>
+</table>
+
+<p align="center"><img src="docs/mobile.png" alt="Phone layout" width="260"><br><sub>Phone layout</sub></p>
+
+Screenshots use the fictional reports in [`demo/reports`](demo/reports); try them with
+`npm install && npm run demo` (http://127.0.0.1:4401).
 
 A report is any `<YYYY-MM-DD>.md` or `<YYYY-Qn>.md` below the root. Its top-level folder is
 the **kind**; folders between the kind and the year are the **group**:
@@ -42,5 +56,6 @@ From another machine: `ssh -L 4400:127.0.0.1:4400 <host>`, then open `http://loc
 
 - `server.js` — the whole backend, Node built-ins only: scans the root, serves
   `/api/index`, `/api/report?path=`, `/api/search?q=` and the static UI. Read-only.
+- `demo/reports/` — fictional reports for the demo and the screenshots.
 - `public/` — the UI, no build step. Markdown is rendered in the browser by `marked`
   (served from `node_modules`); raw HTML in a report is shown as text and a CSP blocks scripts.

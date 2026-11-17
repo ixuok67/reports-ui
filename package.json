@@ -4,7 +4,8 @@
   "private": true,
   "description": "Dark web reader for the plain-file reports under $REPORTS_HOME",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "demo": "REPORTS_HOME=demo/reports PORT=4401 node server.js"
   },
   "dependencies": {
     "marked": "^16.0.0"

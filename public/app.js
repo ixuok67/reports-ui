@@ -285,7 +285,8 @@
     if (!changed && !initial) return;
     state.entries = data.entries;
     state.byPath = new Map(data.entries.map((e) => [e.path, e]));
-    $('#root').textContent = data.root;
+    $('#root').textContent = '\u200E' + data.root; // LRM keeps a leading ~ in place under direction: rtl
+    $('#root').title = data.root;
 
     if (!state.seen) {
       // First visit: only the last few days count as unread, not the whole archive.

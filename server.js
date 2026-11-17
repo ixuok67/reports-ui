@@ -150,7 +150,9 @@ function search(q) {
     if (!c || !terms.every((t) => c.lower.includes(t))) continue;
     const snippets = [];
     let count = 0;
-    for (const line of c.text.split('\n')) {
+    for (const raw of c.text.split('\n')) {
+      // Snippets are shown as plain text, so drop markdown emphasis, code ticks and table pipes.
+      const line = raw.replace(/\*\*|__|`/g, '').replace(/\s*\|\s*/g, ' · ').replace(/^[\s·]+|[\s·]+$/g, '');
       const low = line.toLowerCase();
       const at = terms.map((t) => low.indexOf(t)).filter((i) => i >= 0);
       if (!at.length) continue;
@@ -209,7 +211,9 @@ const server = http.createServer(async (req, res) => {
 
     if (p === '/api/index') {
       await fresh();
-      return json(res, 200, { root: ROOT, entries });
+      const home = os.homedir();
+      const root = ROOT === home || ROOT.startsWith(home + path.sep) ? '~' + ROOT.slice(home.length) : ROOT;
+      return json(res, 200, { root, entries });
     }
     if (p === '/api/report') {
       await fresh();
