@@ -218,7 +218,8 @@ body.focus.reading #rail, body.focus.reading #list { display: none; }
 }
 .md hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
 .md img { max-width: 100%; border-radius: 6px; }
-.md input[type=checkbox] { accent-color: var(--accent); margin-right: 6px; }
+.md input[type=checkbox] { accent-color: var(--accent); margin: 0 8px 0 0; vertical-align: -1px; }
+.md li:has(> input[type=checkbox]) { list-style: none; margin-left: -20px; }
 .table-wrap { overflow-x: auto; margin: 0 0 18px; border: 1px solid var(--line); border-radius: 9px; }
 .md table { border-collapse: collapse; width: 100%; font-size: 13.5px; line-height: 1.5; }
 .md th {

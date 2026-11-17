@@ -340,19 +340,25 @@
     store.set('kind', state.kind);
     renderRail();
     renderList();
+    followFilter();
+    renderNav();
+    $('#items').scrollTop = 0;
+  });
+
+  // After a filter change, keep the reader on a report the list still shows.
+  function followFilter() {
     const list = visible();
     if (list.length && !list.some((e) => e.path === state.path) && window.matchMedia('(min-width: 721px)').matches) {
       location.hash = encodeURI(list[0].path);
     }
-    renderNav();
-    $('#items').scrollTop = 0;
-  });
+  }
 
   $('#groups').addEventListener('click', (ev) => {
     const b = ev.target.closest('[data-group]');
     if (!b) return;
     state.group = b.dataset.group || null;
     renderList();
+    followFilter();
     renderNav();
   });
 
