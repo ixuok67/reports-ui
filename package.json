@@ -1,0 +1,12 @@
+{
+  "name": "reports-ui",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dark web reader for the plain-file reports under $REPORTS_HOME",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "marked": "^16.0.0"
+  }
+}

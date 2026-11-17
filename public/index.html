@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Reports</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div id="app">
+  <nav id="rail" aria-label="Report kinds">
+    <div class="brand"><span class="brand-mark"></span>Reports</div>
+    <div id="kinds"></div>
+    <div class="rail-foot">
+      <div id="root" title="Reports root"></div>
+      <div class="keys"><kbd>j</kbd><kbd>k</kbd> move · <kbd>/</kbd> search</div>
+    </div>
+  </nav>
+
+  <section id="list" aria-label="Reports">
+    <div class="list-head">
+      <input id="q" type="search" placeholder="Search all reports…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <div id="groups"></div>
+      <div id="count"></div>
+    </div>
+    <div id="items"></div>
+  </section>
+
+  <main id="reader">
+    <header id="bar">
+      <button id="back" class="btn" aria-label="Back to list">← List</button>
+      <div id="crumbs"></div>
+      <div class="bar-right">
+        <button id="newer" class="btn" title="Newer (k)">↑ Newer</button>
+        <button id="older" class="btn" title="Older (j)">↓ Older</button>
+      </div>
+    </header>
+    <div id="scroll">
+      <div id="page">
+        <article id="doc" class="md"></article>
+        <aside id="toc" aria-label="On this page"></aside>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="/vendor/marked.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
