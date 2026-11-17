@@ -35,6 +35,7 @@ From another machine: `ssh -L 4400:127.0.0.1:4400 <host>`, then open `http://loc
 
 - Sidebar picks the kind, chips pick the group, search is full text across every report.
 - `j` / `k` older / newer, `/` search, `Esc` clear.
+- `f` hides the side panels (focus), `w` cycles the reading width: comfort, wide, full.
 - A dot marks a report that is new or was rewritten since you last opened it (kept per browser).
 
 ## Layout

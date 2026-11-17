@@ -303,6 +303,33 @@
     if (cur && isUnread(cur) && $('#scroll').scrollTop < 40) openReport(cur.path); // open report was rewritten
   }
 
+  // ---------- reading layout ----------
+  const WIDTHS = ['comfort', 'wide', 'full'];
+  const layout = { width: store.get('width', 'wide'), focus: store.get('focus', false) };
+  if (!WIDTHS.includes(layout.width)) layout.width = 'wide';
+
+  function applyLayout() {
+    document.body.dataset.width = layout.width;
+    document.body.classList.toggle('focus', layout.focus);
+    $('#width').textContent = 'Width: ' + layout.width;
+    $('#focus').textContent = layout.focus ? 'Show panels' : 'Focus';
+    store.set('width', layout.width);
+    store.set('focus', layout.focus);
+  }
+  function cycleWidth() {
+    layout.width = WIDTHS[(WIDTHS.indexOf(layout.width) + 1) % WIDTHS.length];
+    applyLayout();
+  }
+  function toggleFocus() {
+    layout.focus = !layout.focus;
+    applyLayout();
+    const on = document.querySelector('.item.on');
+    if (on && !layout.focus) on.scrollIntoView({ block: 'nearest' });
+  }
+  applyLayout();
+  $('#width').addEventListener('click', cycleWidth);
+  $('#focus').addEventListener('click', toggleFocus);
+
   // ---------- events ----------
   $('#kinds').addEventListener('click', (ev) => {
     const b = ev.target.closest('[data-kind]');
@@ -376,7 +403,9 @@
     if (ev.key === '/') {
       ev.preventDefault();
       $('#q').focus();
-    } else if (ev.key === 'j') step(1);
+    } else if (ev.key === 'f') toggleFocus();
+    else if (ev.key === 'w') cycleWidth();
+    else if (ev.key === 'j') step(1);
     else if (ev.key === 'k') step(-1);
   });
 

@@ -28,7 +28,7 @@ button, input { font: inherit; color: inherit; }
 
 #app {
   display: grid;
-  grid-template-columns: 208px 360px minmax(0, 1fr);
+  grid-template-columns: 196px 330px minmax(0, 1fr);
   height: 100vh;
 }
 
@@ -152,11 +152,26 @@ mark { background: #e5b56733; color: #f3d69c; border-radius: 2px; padding: 0 1px
 .btn:disabled { opacity: .35; cursor: default; }
 #back { display: none; }
 
-#scroll { overflow-y: auto; flex: 1; }
+/* Reading width: comfort / wide / full, chosen in the bar and kept per browser. */
+body { --w: 1040px; --pw: calc(var(--w) + 344px); }
+body[data-width="comfort"] { --w: 820px; }
+body[data-width="full"] { --w: 1fr; --pw: none; }
+
+#scroll { overflow-y: auto; flex: 1; container-type: inline-size; }
 #page {
-  display: grid; grid-template-columns: minmax(0, 820px) 220px; gap: 44px;
-  padding: 30px 40px 120px; max-width: 1180px; margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, var(--w)) 220px; gap: 44px;
+  padding: 30px 40px 120px; max-width: var(--pw); margin: 0 auto;
 }
+/* The outline gives way first, so the text gets the room when the pane is tight. */
+@container (max-width: 1150px) {
+  #page { grid-template-columns: minmax(0, var(--w)); max-width: calc(var(--w) + 80px); }
+  body[data-width="full"] #page { max-width: none; }
+  #toc { display: none; }
+}
+
+/* Focus: side panels away, the report takes the window. */
+body.focus.reading #app { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+body.focus.reading #rail, body.focus.reading #list { display: none; }
 #toc { position: sticky; top: 30px; align-self: start; max-height: calc(100vh - 120px); overflow-y: auto; font-size: 12.5px; }
 #toc .toc-h { font: 600 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
 #toc button {
@@ -212,10 +227,6 @@ mark { background: #e5b56733; color: #f3d69c; border-radius: 2px; padding: 0 1px
 .md tbody tr:hover td { background: #ffffff05; }
 
 /* ---- narrower screens ---- */
-@media (max-width: 1320px) {
-  #page { grid-template-columns: minmax(0, 820px); }
-  #toc { display: none; }
-}
 @media (max-width: 1040px) {
   #app { grid-template-columns: 300px minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
   #rail { grid-column: 1 / -1; flex-direction: row; align-items: center; padding: 8px 12px; border-right: 0; border-bottom: 1px solid var(--line); }
@@ -231,6 +242,7 @@ mark { background: #e5b56733; color: #f3d69c; border-radius: 2px; padding: 0 1px
   body.reading #list { display: none; }
   body.reading #reader { display: flex; }
   #back { display: block; }
+  #width, #focus { display: none; }
   #bar { padding: 8px 12px; }
   #crumbs .meta { display: none; }
   #page { padding: 20px 16px 80px; }
