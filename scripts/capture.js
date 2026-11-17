@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-// Regenerates the README media from the fictional demo reports:
-//   docs/{reader,search,pr-digest,mobile}.png and docs/tour.gif
+// Regenerates the README GIF from the fictional demo reports:
+//   docs/tour.gif
 // Usage: npm run capture [-- --frames <dir>]   (--frames also saves each GIF frame as a PNG)
 // Dev dependencies: puppeteer, gifenc, pngjs.
 
@@ -42,20 +42,6 @@ async function newPage(browser, width, height, scale) {
   return { ctx, page };
 }
 
-async function stills(browser) {
-  const shot = async (name, w, h, scale, url, act) => {
-    const { ctx, page } = await newPage(browser, w, h, scale);
-    await page.goto(url, { waitUntil: 'networkidle0' });
-    if (act) await act(page);
-    await wait(600);
-    await page.screenshot({ path: path.join(OUT, `${name}.png`) });
-    await ctx.close();
-  };
-  await shot('reader', 1440, 900, 2, BASE);
-  await shot('search', 1440, 900, 2, BASE, (p) => p.type('#q', 'postgres'));
-  await shot('pr-digest', 1440, 900, 2, BASE, (p) => p.click('[data-kind="pr-digest"]'));
-  await shot('mobile', 390, 844, 2, BASE + '#daily-reports/2026/2026-11-16.md');
-}
 
 async function tour(browser) {
   const W = 1280;
@@ -133,11 +119,9 @@ async function tour(browser) {
   const server = await startServer();
   const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
   try {
-    await stills(browser);
     const n = await tour(browser);
     const kb = (f) => Math.round(fs.statSync(path.join(OUT, f)).size / 1024);
     console.log(`docs/tour.gif: ${n} frames, ${kb('tour.gif')} KB`);
-    for (const f of ['reader', 'search', 'pr-digest', 'mobile']) console.log(`docs/${f}.png: ${kb(f + '.png')} KB`);
   } finally {
     await browser.close();
     server.kill();
